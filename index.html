@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Speech Buddy</title>
+<link rel="icon"
+href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎙️</text></svg>">
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f8fc;
+margin:0;
+padding:0;
+}
+
+header{
+background:#1565c0;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+header h1{
+margin:0;
+}
+
+header p{
+margin:5px 0 0;
+}
+
+.container{
+padding:15px;
+max-width:700px;
+margin:auto;
+}
+
+.card{
+background:white;
+padding:15px;
+margin-bottom:15px;
+border-radius:15px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+h2{
+margin-top:0;
+color:#1565c0;
+}
+
+select,
+textarea,
+button{
+width:100%;
+padding:12px;
+margin-top:8px;
+border-radius:10px;
+border:1px solid #ccc;
+font-size:16px;
+}
+
+button{
+background:#1565c0;
+color:white;
+border:none;
+font-weight:bold;
+cursor:pointer;
+}
+
+.counter{
+font-size:60px;
+font-weight:bold;
+text-align:center;
+color:#1565c0;
+margin:15px 0;
+}
+
+.row{
+display:flex;
+gap:10px;
+}
+
+.row button{
+font-size:24px;
+}
+
+.controlButtons button{
+
+width:auto;
+
+padding:8px 14px;
+
+font-size:18px;
+
+flex:1;
+
+}
+
+audio{
+width:100%;
+margin-top:10px;
+}
+
+.stat{
+font-size:18px;
+margin:10px 0;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎙 Speech Buddy</h1>
+<p id="quoteText">
+"Participation is the shortcut."
+</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>🎧 Daily Practice</h2>
+
+
+<label>Session</label>
+
+<select id="session">
+
+
+          <option value="Costal breathing.mp3" data-coach="Ravi Lotliker">
+    Costal breathing- Ravi Lotliker
+    </option>
+
+
+          <option value="Morning warm up.mp3" data-coach="Ravi Lotliker">
+    Morning warm up- Ravi Lotliker
+  </option>
+
+    <option value="Checklist.mp3" data-coach="Ravi Lotliker">
+    Checklist- Ravi Lotliker
+  </option>
+
+      <option value="Laws.mp3" data-coach="Ravi Lotliker">
+    Laws- Ravi Lotliker
+  </option>
+
+        <option value="Directions.mp3" data-coach="Ravi Lotliker">
+    Directions- Ravi Lotliker
+  </option>
+
+          <option value="Assertive Rights.mp3" data-coach="Ravi Lotliker">
+    Assertive Rights- Ravi Lotliker
+  </option>
+
+       <option value="Physical weapon 1.mp3" data-coach="Matthew Richardson">
+   Physical weapon 1- Matthew Richardson
+
+     <option value="Physical weapon 2.mp3" data-coach="Matthew Richardson">
+   Physical weapon 2- Matthew Richardson
+      
+
+
+
+
+    <option value="psy_deliberate_dysfluency.mp3" data-coach="Matthew Richardson">
+    Psychological weapon 1- Matthew Richardson
+  </option>
+
+       <option value="Psychological weapon 3.mp3" data-coach="Matthew Richardson">
+  Psychological weapon 3- Matthew Richardson
+
+  
+    <option value="Psychological weapon 4.mp3" data-coach="Matthew Richardson">
+    Psychological weapon 4- Matthew Richardson
+
+   <option value="STAIRWAY TO ELOQUENCE PART 2.mp3" data-coach="Matthew Richardson">
+   Stairway to Eloquence 2- Matthew Richardson
+
+     <option value="CYCLE OF PANIC.mp3" data-coach="Matthew Richardson">
+   Cycle of Panic- Matthew Richardson
+
+     <option value="HEXAGON.mp3" data-coach="Matthew Richardson">
+   Hexagon- Matthew Richardson
+
+     <option value="SELF ACTUALISATION.mp3" data-coach="Matthew Richardson">
+   Self Actualisation- Matthew Richardson
+
+ 
+
+
+
+
+
+     <option value="CANCELLATION.mp3" data-coach="Matthew Richardson">
+    Cancellation- Matthew Richardson
+
+     <option value="CENTER AND CLARIFY.mp3" data-coach="Matthew Richardson">
+   Center and Clarify- Matthew Richardson
+
+
+
+
+
+  
+
+
+</select>
+
+<audio id="audioPlayer" controls loop style="width:100%;">
+    <source src="ravi_daily_1.mp3" type="audio/mpeg">
+</audio>
+
+<label style="display:block;margin-top:10px;">
+    <input type="checkbox" id="loopAudio">
+    🔁 Repeat Current Session
+</label>
+
+<label style="display:block;margin-top:10px;">
+    <input type="checkbox" id="autoNext">
+    ⏭️ Auto Next Session
+</label>
+
+<label style="display:block;margin-top:10px;">
+    <input type="checkbox" id="keepAwake">
+    🔆 Keep Screen Awake
+</label>
+
+<div class="row controlButtons">
+
+<button onclick="prevSession()">
+⏮
+</button>
+
+<button onclick="playPauseAudio()">
+▶ ⏸
+</button>
+
+<button onclick="nextSession()">
+⏭
+</button>
+
+</div>
+
+<button onclick="showCounters()">
+📞 Daily Counters
+</button>
+
+
+</div>
+
+<div id="counterPage" style="display:none;">
+
+<div class="card">
+
+<h2>➕ Daily Counters</h2>
+
+<button onclick="showPractice()">
+⬅ Back To Practice
+</button>
+
+<h3>📞 Contacts</h3>
+
+<div class="counter" id="contactCount">
+0
+</div>
+
+<div class="row">
+<button onclick="minusContact()">-</button>
+<button onclick="addContact()">+</button>
+</div>
+
+<hr>
+
+<h3>🗣️ Disclosures</h3>
+
+<div class="counter" id="disclosureCount">
+0
+</div>
+
+<div class="row">
+<button onclick="minusDisclosure()">-</button>
+<button onclick="addDisclosure()">+</button>
+</div>
+
+<label>Contact Target</label>
+
+<select id="contactTarget" onchange="updateProgress()">
+<option>10</option>
+<option>25</option>
+<option selected>50</option>
+<option>75</option>
+<option>100</option>
+<option>150</option>
+<option>200</option>
+</select>
+
+<br><br>
+
+<label>Disclosure Target</label>
+
+<select id="disclosureTarget" onchange="updateProgress()">
+<option>10</option>
+<option>25</option>
+<option selected>50</option>
+<option>75</option>
+<option>100</option>
+<option>150</option>
+<option>200</option>
+</select>
+
+<p id="progressText">
+Contacts: 0 / 50
+<br>
+Disclosures: 0 / 10
+</p>
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+<script>
+
+  let today =
+new Date().toDateString();
+
+let savedDate =
+localStorage.getItem(
+"lastOpenDate"
+);
+
+if(savedDate !== today){
+
+    localStorage.setItem(
+    "contacts",
+    0
+    );
+
+    localStorage.setItem(
+    "disclosures",
+    0
+    );
+
+    localStorage.setItem(
+    "lastOpenDate",
+    today
+    );
+
+}
+
+let contacts =
+parseInt(localStorage.getItem("contacts")) || 0;
+
+
+
+let disclosures =
+parseInt(localStorage.getItem("disclosures")) || 0;
+
+
+
+
+
+document.getElementById("contactCount").innerText =
+contacts;
+
+
+
+document.getElementById("disclosureCount").innerText =
+disclosures;
+
+
+
+
+
+updateProgress();
+
+function addContact(){
+
+contacts++;
+
+localStorage.setItem(
+"contacts",
+contacts
+);
+
+document.getElementById(
+"contactCount"
+).innerText =
+contacts;
+
+updateProgress();
+
+}
+
+function minusContact(){
+
+if(contacts>0){
+
+contacts--;
+
+localStorage.setItem(
+"contacts",
+contacts
+);
+
+document.getElementById("contactCount").innerText =
+contacts;
+
+updateProgress();
+
+}
+
+}
+
+function addDisclosure(){
+
+disclosures++;
+
+localStorage.setItem(
+"disclosures",
+disclosures
+);
+
+document.getElementById(
+"disclosureCount"
+).innerText =
+disclosures;
+
+updateProgress();
+
+}
+
+function minusDisclosure(){
+
+if(disclosures>0){
+
+disclosures--;
+
+localStorage.setItem(
+"disclosures",
+disclosures
+);
+
+document.getElementById(
+"disclosureCount"
+).innerText =
+disclosures;
+
+updateProgress();
+
+}
+
+}
+
+function updateProgress(){
+
+let contactTarget =
+document.getElementById("contactTarget").value;
+
+let disclosureTarget =
+document.getElementById("disclosureTarget").value;
+
+document.getElementById("progressText").innerHTML =
+"Contacts: " + contacts +
+" / " + contactTarget +
+"<br>Disclosures: " +
+disclosures +
+" / " + disclosureTarget;
+
+}
+
+function completeSession(){
+
+alert("Session Completed!");
+return;
+
+localStorage.setItem(
+"sessionsCompleted",
+sessionsCompleted
+);
+
+localStorage.setItem(
+"streak",
+streak
+);
+
+document.getElementById("sessionsCompleted").innerText =
+sessionsCompleted;
+
+document.getElementById("streak").innerText =
+streak;
+
+alert("Session Completed!");
+}
+
+
+
+
+document.getElementById("session").addEventListener("change", function() {
+
+    const audio =
+    document.getElementById("audioPlayer");
+
+    audio.src = this.value;
+
+    audio.load();
+
+    localStorage.setItem(
+    "lastSession",
+    this.value
+    );
+
+});
+
+document.getElementById("loopAudio").addEventListener("change", function(){
+
+    document.getElementById("audioPlayer").loop =
+    this.checked;
+
+    if(this.checked){
+
+        document.getElementById(
+        "autoNext"
+        ).checked = false;
+
+    }
+
+});
+
+document.getElementById("autoNext")
+.addEventListener("change", function(){
+
+    if(this.checked){
+
+        document.getElementById(
+        "loopAudio"
+        ).checked = false;
+
+        document.getElementById(
+        "audioPlayer"
+        ).loop = false;
+
+    }
+
+});
+
+document.getElementById("audioPlayer")
+.addEventListener("ended", function(){
+
+    if(
+      !document.getElementById("autoNext").checked
+    ){
+      return;
+    }
+
+    let session =
+    document.getElementById("session");
+
+    if(
+      session.selectedIndex <
+      session.options.length - 1
+    ){
+
+      session.selectedIndex++;
+
+      session.dispatchEvent(
+        new Event("change")
+      );
+
+      document.getElementById(
+        "audioPlayer"
+      ).play();
+
+    }
+
+});
+
+let wakeLock = null;
+
+document.getElementById("keepAwake")
+.addEventListener("change", async function(){
+
+    if(this.checked){
+
+        try{
+
+            wakeLock =
+            await navigator.wakeLock.request(
+            "screen"
+            );
+
+            console.log(
+            "Screen Wake Lock Active"
+            );
+
+        }catch(err){
+
+            alert(
+            "Wake Lock not supported on this device/browser"
+            );
+
+        }
+
+    }else{
+
+        if(wakeLock){
+
+            wakeLock.release();
+
+            wakeLock = null;
+
+            console.log(
+            "Wake Lock Released"
+            );
+
+        }
+
+    }
+
+});
+
+function showCounters(){
+
+document.querySelector(".card").style.display = "none";
+
+document.getElementById(
+"counterPage"
+).style.display = "block";
+
+}
+
+function showPractice(){
+
+document.querySelector(".card").style.display = "block";
+
+document.getElementById(
+"counterPage"
+).style.display = "none";
+
+}
+
+const quotes = [
+
+"Overkill feared words and sounds to the boring stage.",
+
+"Action cures fear.",
+
+"Be comfortable being uncomfortable.",
+
+"Courage grows through use.",
+
+"Resist time pressure.",
+
+"Formulate.",
+
+"Do the thing you fear most.",
+
+"Confidence comes from participation.",
+
+"Every disclosure is a victory.",
+
+"Growth begins outside your comfort zone.",
+
+"Progress, not perfection.",
+
+"Keep moving forward.",
+
+"Donot avoid situtaions.",
+
+"Practice makes progress.",
+
+"One contact at a time.",
+
+"Donot use Tricks.",
+
+"Donot avoid words or sounds.",
+
+"Costal breath all day long.",
+
+"Respond to turbulence immediately.",
+
+"Respond to turbulence immediately.",
+
+"Speak with atleast the basic technique everytime.",
+
+"Practice HH and BR everyday.",
+
+"Release residual air.",
+
+
+"Establish and maintain eye contact.",
+
+
+"Deep and breathy tone.",
+
+"Assertive First sound.",
+
+"Center and clarify."
+];
+
+let lastQuote = -1;
+
+let firstQuote =
+Math.floor(Math.random() * quotes.length);
+
+document.getElementById(
+"quoteText"
+).innerText =
+quotes[firstQuote];
+
+setInterval(function(){
+
+let randomIndex;
+
+do{
+
+randomIndex =
+Math.floor(
+Math.random() * quotes.length
+);
+
+}while(
+randomIndex === lastQuote
+&& quotes.length > 1
+);
+
+lastQuote = randomIndex;
+
+document.getElementById(
+"quoteText"
+).innerText =
+quotes[randomIndex];
+
+},15000);
+
+
+window.onload = function(){
+
+    let lastSession =
+    localStorage.getItem(
+    "lastSession"
+    );
+
+    const session =
+    document.getElementById(
+    "session"
+    );
+
+    const audio =
+    document.getElementById(
+    "audioPlayer"
+    );
+
+    if(lastSession){
+
+        session.value =
+        lastSession;
+
+    }
+
+    audio.src =
+    session.value;
+
+    audio.load();
+
+};
+
+function playPauseAudio(){
+
+const audio =
+document.getElementById(
+"audioPlayer"
+);
+
+if(audio.paused){
+
+audio.play();
+
+}else{
+
+audio.pause();
+
+}
+
+}
+
+function nextSession(){
+
+let session =
+document.getElementById(
+"session"
+);
+
+if(
+session.selectedIndex <
+session.options.length - 1
+){
+
+session.selectedIndex++;
+
+session.dispatchEvent(
+new Event("change")
+);
+
+}
+
+}
+
+function prevSession(){
+
+let session =
+document.getElementById(
+"session"
+);
+
+if(
+session.selectedIndex > 0
+){
+
+session.selectedIndex--;
+
+session.dispatchEvent(
+new Event("change")
+);
+
+}
+
+}
+</script>
+
+</body>
+</html>
